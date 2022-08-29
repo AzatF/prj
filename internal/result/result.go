@@ -37,14 +37,15 @@ func NewResult(logger *logging.Logger, cfg *config.Config) (MakerRes, error) {
 	}, nil
 }
 
-var CacheResult model.ResultSetT
+var (
+	CacheResult model.ResultSetT
+	stTimeEnd   = time.Now().Local().Format("2006-01-02 15:04")
+)
 
 func (r *CashResultData) GetResultData() (model.ResultSetT, error) {
 
 	r.Mu.Lock()
 	defer r.Mu.Unlock()
-
-	stTimeEnd := time.Now().Local().Add(30 * time.Second).Format("2006-01-02 15:04")
 
 	if time.Now().Local().Format("2006-01-02 15:04") < stTimeEnd {
 		return CacheResult, nil

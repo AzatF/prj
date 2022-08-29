@@ -3,8 +3,9 @@ package main
 import (
 	"flag"
 	"project/config"
+	"project/internal/app"
+	"project/internal/server"
 	"project/pkg/logging"
-	"project/server"
 )
 
 var (
@@ -26,8 +27,8 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	//test.TestingApp(cfg, logger)
+	appServer.HomeServer()
 
-	appServer.HomeServer(cfg.SupportHost, "8888", logger)
+	app.StartServer(cfg.SupportHost, "8888", logger)
 
 }

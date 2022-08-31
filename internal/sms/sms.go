@@ -47,7 +47,7 @@ func CheckSMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.SMSDataMo
 
 					if smsDataString[3] == k && smsDataString[0] == c.Alpha2 {
 
-						smsSliceString.Country = smsDataString[0]
+						smsSliceString.Country = c.Country
 						smsSliceString.Bandwidth = smsDataString[1]
 						smsSliceString.ResponseTime = smsDataString[2]
 						smsSliceString.Provider = smsDataString[3]
@@ -69,24 +69,10 @@ func CheckSMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.SMSDataMo
 	return smsSliceSum, nil
 }
 
-func SortSMSInfo(smsInfo []model.SMSDataModel, logger *logging.Logger) (sorted []model.SMSDataModel, err error) {
-
-	codeA2, err := alpha2.CountryCodeAlpha2()
-	if err != nil {
-		logger.Error(err)
-		return nil, err
-	}
+func SortSMSInfo(smsInfo []model.SMSDataModel, logger *logging.Logger) ([]model.SMSDataModel, error) {
 
 	for _, v := range smsInfo {
-
-		for _, c := range codeA2 {
-
-			if v.Country == c.Alpha2 {
-
-				v.Country = c.Country
-				first = append(first, v)
-			}
-		}
+		first = append(first, v)
 	}
 
 	sort.SliceStable(first, func(i, j int) bool {

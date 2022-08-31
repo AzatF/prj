@@ -47,6 +47,7 @@ func CheckMMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.MMSDataMo
 				if m.Provider == p {
 					for _, c := range codeA2 {
 						if m.Country == c.Alpha2 {
+							m.Country = c.Country
 							mmsSliceRes = append(mmsSliceRes, m)
 						}
 					}
@@ -63,21 +64,10 @@ func CheckMMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.MMSDataMo
 
 }
 
-func SortMMSInfo(mmsInfo []model.MMSDataModel, logger *logging.Logger) (sorted []model.MMSDataModel, err error) {
-
-	codeA2, err := alpha2.CountryCodeAlpha2()
-	if err != nil {
-		logger.Error(err)
-		return nil, err
-	}
+func SortMMSInfo(mmsInfo []model.MMSDataModel, logger *logging.Logger) ([]model.MMSDataModel, error) {
 
 	for _, v := range mmsInfo {
-		for _, c := range codeA2 {
-			if v.Country == c.Alpha2 {
-				v.Country = c.Country
-				first = append(first, v)
-			}
-		}
+		first = append(first, v)
 	}
 
 	sort.SliceStable(first, func(i, j int) bool {

@@ -43,8 +43,6 @@ func (l *list) HomeServer() {
 
 func (l *list) handleConnection(w http.ResponseWriter, r *http.Request) {
 
-	w.WriteHeader(http.StatusOK)
-
 	a, err := result.NewResult(l.logger, l.cfg)
 	if err != nil {
 		l.logger.Error(err)
@@ -59,12 +57,15 @@ func (l *list) handleConnection(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resultT.Data = resultNew
+	//resp, _ := json.Marshal(resultT)
+	resp, _ := json.MarshalIndent(resultT, "", " ")
+
+	//_, _ = w.Write(resp)
+
+	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	resp, _ := json.Marshal(resultT)
-
-	//_, _ = w.Write(resp)
 
 	t, err := template.ParseFiles("./web/status_page.html")
 	if err != nil {
@@ -76,5 +77,6 @@ func (l *list) handleConnection(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		l.logger.Error(err)
 	}
+	//_, _ = w.Write(resp)
 
 }

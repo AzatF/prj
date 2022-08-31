@@ -1,7 +1,8 @@
 (function(){
     // let apiPath = 'http://127.0.0.1:8383/test';
     // let apiPath = 'http://127.0.0.1:8282/api';
-    let apiPath = 'http://127.0.0.1:8888/api';
+    // let apiPath = 'http://127.0.0.1:8888/api';
+    let apiPath = '/api';
 
     let dataScheme = {
         'voice_call' : [
@@ -200,6 +201,7 @@
 
         console.log('YES');
         renderEmailCharts(json.data.email);
+
     };
 
     ready(() => {

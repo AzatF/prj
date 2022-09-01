@@ -29,10 +29,7 @@ func NewServer(cfg *config.Config, logger *logging.Logger) (Handlers, error) {
 }
 
 func (l *list) HomeServer() {
-
 	http.HandleFunc("/api", l.handleConnection)
-	http.Handle("/web/", http.StripPrefix("/web/", http.FileServer(http.Dir("./web/"))))
-
 }
 
 func (l *list) handleConnection(w http.ResponseWriter, r *http.Request) {

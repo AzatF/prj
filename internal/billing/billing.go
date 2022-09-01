@@ -9,11 +9,11 @@ import (
 	"strconv"
 )
 
-var (
-	n1, n2, n3, n4, n5, n6 int
-)
-
 func CheckBillingInfo(cfg *config.Config, logger *logging.Logger) (billingInfo model.BillingDataModel, err error) {
+
+	var (
+		n1, n2, n3, n4, n5, n6 int
+	)
 
 	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "billing.data"))
 	if err != nil {

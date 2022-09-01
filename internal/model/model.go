@@ -1,59 +1,59 @@
 package model
 
 type SMSDataModel struct {
-	Country      string `json:"country,omitempty"`
-	Bandwidth    string `json:"bandwidth,omitempty"`
-	ResponseTime string `json:"response_time,omitempty"`
-	Provider     string `json:"provider,omitempty"`
+	Country      string `json:"country"`
+	Bandwidth    string `json:"bandwidth"`
+	ResponseTime string `json:"response_time"`
+	Provider     string `json:"provider"`
 }
 
 type MMSDataModel struct {
-	Country      string `json:"country,omitempty"`
-	Bandwidth    string `json:"bandwidth,omitempty"`
-	ResponseTime string `json:"response_time,omitempty"`
-	Provider     string `json:"provider,omitempty"`
+	Country      string `json:"country"`
+	Bandwidth    string `json:"bandwidth"`
+	ResponseTime string `json:"response_time"`
+	Provider     string `json:"provider"`
 }
 
 type VoiceDataModel struct {
-	Country             string  `json:"country,omitempty"`
-	Bandwidth           string  `json:"bandwidth,omitempty"`
-	ResponseTime        string  `json:"response_time,omitempty"`
-	Provider            string  `json:"provider,omitempty"`
-	ConnectionStability float32 `json:"connection_stability,omitempty"`
-	TTFB                int     `json:"ttfb,omitempty"`
-	VoicePurity         int     `json:"voice_purity,omitempty"`
-	MedianOfCallsTime   int     `json:"median_of_calls_time,omitempty"`
+	Country             string  `json:"country"`
+	Bandwidth           string  `json:"bandwidth"`
+	ResponseTime        string  `json:"response_time"`
+	Provider            string  `json:"provider"`
+	ConnectionStability float32 `json:"connection_stability"`
+	TTFB                int     `json:"ttfb"`
+	VoicePurity         int     `json:"voice_purity"`
+	MedianOfCallsTime   int     `json:"median_of_calls_time"`
 }
 
 type EmailDataModel struct {
-	Country      string `json:"country,omitempty"`
-	Provider     string `json:"provider,omitempty"`
-	DeliveryTime int    `json:"delivery_time,omitempty"`
+	Country      string `json:"country"`
+	Provider     string `json:"provider"`
+	DeliveryTime int    `json:"delivery_time"`
 }
 
 type BillingDataModel struct {
-	CreateCustomer bool `json:"create_customer,omitempty"`
-	Purchase       bool `json:"purchase,omitempty"`
-	Payout         bool `json:"payout,omitempty"`
-	Recurring      bool `json:"recurring,omitempty"`
-	FraudControl   bool `json:"fraud_control,omitempty"`
-	CheckoutPage   bool `json:"checkout_page,omitempty"`
+	CreateCustomer bool `json:"create_customer"`
+	Purchase       bool `json:"purchase"`
+	Payout         bool `json:"payout"`
+	Recurring      bool `json:"recurring"`
+	FraudControl   bool `json:"fraud_control"`
+	CheckoutPage   bool `json:"checkout_page"`
 }
 
 type SupportDataModel struct {
-	Topic         string `json:"topic,omitempty"`
-	ActiveTickets int    `json:"active_tickets,omitempty"`
+	Topic         string `json:"topic"`
+	ActiveTickets int    `json:"active_tickets"`
 }
 
 type IncidentDataModel struct {
-	Topic  string `json:"topic,omitempty"`
-	Status string `json:"status,omitempty"`
+	Topic  string `json:"topic"`
+	Status string `json:"status"`
 }
 
 type ResultT struct {
-	Status bool       `json:"status,omitempty"`
-	Data   ResultSetT `json:"data,omitempty"`
-	Error  string     `json:"error,omitempty"`
+	Status bool       `json:"status"`
+	Data   ResultSetT `json:"data"`
+	Error  string     `json:"error"`
 }
 
 type ResultSetT struct {

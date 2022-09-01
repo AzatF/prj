@@ -9,11 +9,6 @@ import (
 	"project/pkg/logging"
 )
 
-var (
-	sumTicket int
-	workLoad  int
-)
-
 func CheckSupportInfo(cfg *config.Config, logger *logging.Logger) (supportInfo []model.SupportDataModel, err error) {
 
 	resp, err := http.Get("http://" + cfg.SupportHost + ":" + cfg.SupportPort + "/support")
@@ -39,6 +34,11 @@ func CheckSupportInfo(cfg *config.Config, logger *logging.Logger) (supportInfo [
 }
 
 func SortSupportInfo(supportInfo []model.SupportDataModel) (sortedSupportInfo []int, err error) {
+
+	var (
+		sumTicket int
+		workLoad  int
+	)
 
 	medianTime := 60.0 / 18.0 / 1.0
 	for _, v := range supportInfo {

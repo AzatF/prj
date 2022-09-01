@@ -9,11 +9,9 @@ import (
 	"sort"
 )
 
-var (
-	incidentInfo []model.IncidentDataModel
-)
-
 func CheckIncidentInfo(cfg *config.Config, logger *logging.Logger) ([]model.IncidentDataModel, error) {
+
+	var incidentInfo []model.IncidentDataModel
 
 	resp, err := http.Get("http://" + cfg.IncidentHost + ":" + cfg.IncidentPort + "/accendent")
 	if err != nil {

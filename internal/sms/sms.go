@@ -12,13 +12,12 @@ import (
 	"strings"
 )
 
-var (
-	smsSliceString model.SMSDataModel
-	smsSliceSum    []model.SMSDataModel
-	first          []model.SMSDataModel
-)
-
 func CheckSMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.SMSDataModel, error) {
+
+	var (
+		smsSliceString model.SMSDataModel
+		smsSliceSum    []model.SMSDataModel
+	)
 
 	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "sms.data"))
 	if err != nil {
@@ -71,6 +70,7 @@ func CheckSMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.SMSDataMo
 
 func SortSMSInfo(smsInfo []model.SMSDataModel, logger *logging.Logger) ([]model.SMSDataModel, error) {
 
+	var first []model.SMSDataModel
 	for _, v := range smsInfo {
 		first = append(first, v)
 	}

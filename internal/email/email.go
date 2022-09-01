@@ -12,12 +12,12 @@ import (
 	"strings"
 )
 
-var (
-	emailInfo    model.EmailDataModel
-	emailInfoSum []model.EmailDataModel
-)
-
 func CheckEmailInfo(cfg *config.Config, logger *logging.Logger) ([]model.EmailDataModel, error) {
+
+	var (
+		emailInfo    model.EmailDataModel
+		emailInfoSum []model.EmailDataModel
+	)
 
 	codeA2, err := alpha2.CountryCodeAlpha2()
 	if err != nil {

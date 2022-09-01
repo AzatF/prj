@@ -11,14 +11,12 @@ import (
 	"strings"
 )
 
-var (
-	mmsSliceSum []model.MMSDataModel
-	mmsSliceRes []model.MMSDataModel
-	first       []model.MMSDataModel
-)
-
 func CheckMMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.MMSDataModel, error) {
 
+	var (
+		mmsSliceSum []model.MMSDataModel
+		mmsSliceRes []model.MMSDataModel
+	)
 	codeA2, err := alpha2.CountryCodeAlpha2()
 	if err != nil {
 		logger.Error(err)
@@ -66,6 +64,7 @@ func CheckMMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.MMSDataMo
 
 func SortMMSInfo(mmsInfo []model.MMSDataModel, logger *logging.Logger) ([]model.MMSDataModel, error) {
 
+	var first []model.MMSDataModel
 	for _, v := range mmsInfo {
 		first = append(first, v)
 	}

@@ -11,13 +11,13 @@ import (
 	"strings"
 )
 
-var (
-	voiceInfo    model.VoiceDataModel
-	voiceInfoSum []model.VoiceDataModel
-	sum          float64
-)
-
 func CheckVoiceInfo(cfg *config.Config, logger *logging.Logger) ([]model.VoiceDataModel, error) {
+
+	var (
+		voiceInfo    model.VoiceDataModel
+		voiceInfoSum []model.VoiceDataModel
+		sum          float64
+	)
 
 	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "voice.data"))
 	if err != nil {

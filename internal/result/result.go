@@ -38,8 +38,8 @@ func NewResult(logger *logging.Logger, cfg *config.Config) (MakerRes, error) {
 }
 
 var (
-	CacheResult model.ResultSetT
-	stTimeEnd   = time.Now().Local().Format("2006-01-02 15:04")
+	CacheResultOld model.ResultSetT
+	stTimeEnd      = time.Now().Format(time.RFC3339)
 )
 
 func (r *CashResultData) GetResultData() (model.ResultSetT, error) {
@@ -47,20 +47,24 @@ func (r *CashResultData) GetResultData() (model.ResultSetT, error) {
 	r.Mu.Lock()
 	defer r.Mu.Unlock()
 
-	if time.Now().Local().Format("2006-01-02 15:04") < stTimeEnd {
-		return CacheResult, nil
+	if time.Now().Format(time.RFC3339) < stTimeEnd {
+		r.logger.Info("result from cache!===")
+		return CacheResultOld, nil
+	} else {
+		CacheResultNew, err := r.timeCachedResult()
+		r.logger.Info("new result!===")
+		stTimeEnd = time.Now().Add(30 * time.Second).Format(time.RFC3339)
+		if err != nil {
+			return CacheResultOld, err
+		}
+		return CacheResultNew, nil
 	}
-
-	CacheResult, err := r.timeCachedResult()
-	stTimeEnd = time.Now().Local().Add(30 * time.Second).Format("2006-01-02 15:04")
-	if err != nil {
-		return CacheResult, err
-	}
-	return CacheResult, nil
 
 }
 
 func (r *CashResultData) timeCachedResult() (model.ResultSetT, error) {
+
+	CacheResult := model.ResultSetT{}
 
 	smsInfo, err := sms.CheckSMSInfo(r.cfg, r.logger)
 	if err != nil {
@@ -122,7 +126,6 @@ func (r *CashResultData) timeCachedResult() (model.ResultSetT, error) {
 	CacheResult.MMS = append(CacheResult.MMS, mmsInfo)
 	CacheResult.MMS = append(CacheResult.MMS, sortedMMS)
 	CacheResult.VoiceCall = append(CacheResult.VoiceCall, voiceInfo...)
-
 	CacheResult.Email = make(map[string][][]model.EmailDataModel)
 	for i, v := range fast {
 		CacheResult.Email[i] = append(CacheResult.Email[i], v)
@@ -130,10 +133,11 @@ func (r *CashResultData) timeCachedResult() (model.ResultSetT, error) {
 	for i, v := range slow {
 		CacheResult.Email[i] = append(CacheResult.Email[i], v)
 	}
-
 	CacheResult.Billing = billingInfo
 	CacheResult.Support = append(CacheResult.Support, sortedSupportInfo...)
 	CacheResult.Incident = append(CacheResult.Incident, incidentInfo...)
+
+	CacheResultOld = CacheResult
 
 	return CacheResult, nil
 

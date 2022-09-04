@@ -7,6 +7,7 @@ import (
 	"os"
 	"path"
 	"runtime"
+	"time"
 )
 
 type Logger struct {
@@ -31,7 +32,7 @@ func GetLogger(level string) *Logger {
 		},
 		DisableColors:   false,
 		FullTimestamp:   true,
-		TimestampFormat: "2006-01-02 15:04",
+		TimestampFormat: time.RFC1123,
 	}
 
 	l.SetOutput(os.Stdout)

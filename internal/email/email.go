@@ -1,7 +1,7 @@
 package email
 
 import (
-	"io/ioutil"
+	"os"
 	"path"
 	"project/config"
 	"project/internal/alpha2"
@@ -19,13 +19,12 @@ func CheckEmailInfo(cfg *config.Config, logger *logging.Logger) ([]model.EmailDa
 		emailInfoSum []model.EmailDataModel
 	)
 
-	codeA2, err := alpha2.CountryCodeAlpha2()
+	file, err := os.ReadFile(path.Join(cfg.DataPath, "email.data"))
 	if err != nil {
-		logger.Error(err)
 		return nil, err
 	}
 
-	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "email.data"))
+	codeA2, err := alpha2.CountryCodeAlpha2()
 	if err != nil {
 		logger.Error(err)
 		return nil, err

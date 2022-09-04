@@ -13,13 +13,12 @@ func CheckIncidentInfo(cfg *config.Config, logger *logging.Logger) ([]model.Inci
 
 	var incidentInfo []model.IncidentDataModel
 
-	resp, err := http.Get("http://" + cfg.IncidentHost + ":" + cfg.IncidentPort + "/accendent")
+	resp, err := http.Get(cfg.IncidentHost + ":" + cfg.IncidentPort)
 	if err != nil {
-		logger.Errorf("Status code incident: %v", resp.StatusCode)
-		logger.Fatal(err)
+		return nil, err
 	}
+
 	logger.Infof("Status code incident: %v", resp.StatusCode)
-	defer resp.Body.Close()
 
 	if resp.StatusCode == 200 {
 
@@ -33,6 +32,7 @@ func CheckIncidentInfo(cfg *config.Config, logger *logging.Logger) ([]model.Inci
 		})
 
 	}
+	defer resp.Body.Close()
 
 	return incidentInfo, nil
 }

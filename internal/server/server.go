@@ -29,6 +29,7 @@ func NewServer(cfg *config.Config, logger *logging.Logger) (Handlers, error) {
 }
 
 func (l *list) HomeServer() {
+	http.Handle("/", http.FileServer(http.Dir("./web")))
 	http.HandleFunc("/api", l.handleConnection)
 }
 
@@ -39,20 +40,17 @@ func (l *list) handleConnection(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		l.logger.Error(err)
 	}
-	resultNew, err := a.GetResultData()
 
-	if err != nil {
-		l.logger.Error(err)
+	resultT.Data = a.GetResultData()
+
+	if result.CollectDataError {
 		resultT.Status = false
-		resultT.Data = resultNew
-		resultT.Error = "Error on collect data"
+		resultT.Error = "error on collect data"
 	} else {
 		resultT.Status = true
-		resultT.Data = resultNew
 		resultT.Error = ""
 	}
 
-	//resp, err := json.Marshal(resultT)
 	resp, err := json.MarshalIndent(resultT, "", " ")
 	if err != nil {
 		log.Printf("json marshal error: %v", err)

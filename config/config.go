@@ -13,6 +13,8 @@ type Config struct {
 	ProvidersVoice string `env:"PROVIDERS-VOICE" env-required:"true"`
 	ProvidersEmail string `env:"PROVIDERS-EMAIL" env-required:"true"`
 	Alpha2         string `env:"ALPHA2" env-required:"true"`
+	Host           string `env:"HOST" env-required:"true"`
+	Port           string `env:"PORT" env-required:"true"`
 	MMSHost        string `env:"MMS-HOST" env-required:"true"`
 	MMSPort        string `env:"MMS-PORT" env-required:"true"`
 	SupportHost    string `env:"SUPPORT-HOST" env-required:"true"`

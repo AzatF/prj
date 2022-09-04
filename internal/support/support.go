@@ -2,6 +2,7 @@ package support
 
 import (
 	"encoding/json"
+	"io"
 	"math"
 	"net/http"
 	"project/config"
@@ -11,14 +12,18 @@ import (
 
 func CheckSupportInfo(cfg *config.Config, logger *logging.Logger) (supportInfo []model.SupportDataModel, err error) {
 
-	resp, err := http.Get("http://" + cfg.SupportHost + ":" + cfg.SupportPort + "/support")
+	resp, err := http.Get(cfg.SupportHost + ":" + cfg.SupportPort)
 	if err != nil {
-		logger.Errorf("Status code support: %v", resp.StatusCode)
 		return nil, err
 	}
 
 	logger.Infof("Status code support: %v", resp.StatusCode)
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 
 	if resp.StatusCode == 200 {
 

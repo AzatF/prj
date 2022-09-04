@@ -1,8 +1,7 @@
 package sms
 
 import (
-	"io/ioutil"
-	"log"
+	"os"
 	"path"
 	"project/config"
 	"project/internal/alpha2"
@@ -19,9 +18,8 @@ func CheckSMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.SMSDataMo
 		smsSliceSum    []model.SMSDataModel
 	)
 
-	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "sms.data"))
+	file, err := os.ReadFile(path.Join(cfg.DataPath, "sms.data"))
 	if err != nil {
-		log.Println(err)
 		return nil, err
 	}
 
@@ -68,7 +66,7 @@ func CheckSMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.SMSDataMo
 	return smsSliceSum, nil
 }
 
-func SortSMSInfo(smsInfo []model.SMSDataModel, logger *logging.Logger) ([]model.SMSDataModel, error) {
+func SortSMSInfo(smsInfo []model.SMSDataModel) ([]model.SMSDataModel, error) {
 
 	var first []model.SMSDataModel
 	for _, v := range smsInfo {

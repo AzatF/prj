@@ -24,9 +24,8 @@ func CheckMMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.MMSDataMo
 	}
 
 	prov := strings.Split(cfg.Providers, " ")
-	resp, err := http.Get("http://" + cfg.MMSHost + ":" + cfg.MMSPort + "/mms")
+	resp, err := http.Get(cfg.MMSHost + ":" + cfg.MMSPort)
 	if err != nil {
-		logger.Errorf("Status code MMS: %v", resp.StatusCode)
 		return nil, err
 	}
 
@@ -62,7 +61,7 @@ func CheckMMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.MMSDataMo
 
 }
 
-func SortMMSInfo(mmsInfo []model.MMSDataModel, logger *logging.Logger) ([]model.MMSDataModel, error) {
+func SortMMSInfo(mmsInfo []model.MMSDataModel) ([]model.MMSDataModel, error) {
 
 	var first []model.MMSDataModel
 	for _, v := range mmsInfo {

@@ -1,7 +1,7 @@
 package alpha2
 
 import (
-	"io/ioutil"
+	"os"
 	"project/internal/model"
 	"strings"
 )
@@ -13,7 +13,7 @@ var (
 
 func CountryCodeAlpha2() (isoCodeRes []model.ISO3166, err error) {
 
-	codeAlpha2, err := ioutil.ReadFile("./data/country_code.csv")
+	codeAlpha2, err := os.ReadFile("./data/country_code.csv")
 	if err != nil {
 		return nil, err
 	}

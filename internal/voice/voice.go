@@ -1,7 +1,7 @@
 package voice
 
 import (
-	"io/ioutil"
+	"os"
 	"path"
 	"project/config"
 	"project/internal/alpha2"
@@ -19,9 +19,8 @@ func CheckVoiceInfo(cfg *config.Config, logger *logging.Logger) ([]model.VoiceDa
 		sum          float64
 	)
 
-	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "voice.data"))
+	file, err := os.ReadFile(path.Join(cfg.DataPath, "voice.data"))
 	if err != nil {
-		logger.Error(err)
 		return nil, err
 	}
 

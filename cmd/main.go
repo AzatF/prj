@@ -29,6 +29,6 @@ func main() {
 
 	appServer.HomeServer()
 
-	app.StartServer(cfg.SupportHost, "8888", logger)
+	app.StartServer(cfg.Host, cfg.Port, logger)
 
 }

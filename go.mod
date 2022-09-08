@@ -4,6 +4,7 @@ go 1.18
 
 require (
 	github.com/ilyakaznacheev/cleanenv v1.3.0
+	github.com/mattn/go-sqlite3 v1.14.15
 	github.com/sirupsen/logrus v1.9.0
 )
 

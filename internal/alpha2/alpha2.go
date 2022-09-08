@@ -2,18 +2,18 @@ package alpha2
 
 import (
 	"os"
+	"path"
+	"project/config"
 	"project/internal/model"
 	"strings"
 )
 
-var (
-	ss      []string
-	isoCode model.ISO3166
-)
+func CountryCodeAlpha2(cfg *config.Config) (isoCodeRes []model.ISO3166, err error) {
 
-func CountryCodeAlpha2() (isoCodeRes []model.ISO3166, err error) {
+	var ss []string
+	var isoCode model.ISO3166
 
-	codeAlpha2, err := os.ReadFile("./data/country_code.csv")
+	codeAlpha2, err := os.ReadFile(path.Join(cfg.BasePath, "country_code.csv"))
 	if err != nil {
 		return nil, err
 	}
@@ -34,4 +34,32 @@ func CountryCodeAlpha2() (isoCodeRes []model.ISO3166, err error) {
 	}
 
 	return isoCodeRes, nil
+}
+
+func GetProviders(cfg *config.Config, name string) ([]string, error) {
+
+	var s []string
+	var result []string
+
+	file, err := os.ReadFile(path.Join(cfg.BasePath, "providers.csv"))
+	if err != nil {
+		return nil, err
+	}
+
+	res := strings.Split(string(file), ";")
+
+	if len(res) > 1 {
+		for _, v := range res {
+			s = strings.Split(v, ",")
+			if strings.TrimSpace(s[0]) == name {
+				for i, k := range s {
+					if i >= 1 {
+						result = append(result, strings.TrimSpace(k))
+					}
+				}
+			}
+		}
+	}
+
+	return result, nil
 }

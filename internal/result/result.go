@@ -100,7 +100,7 @@ func (r *CashResultData) timeCachedResult() model.ResultSetT {
 		CollectDataError = true
 	}
 
-	fast, slow, err := email.SortEmailInfo(emailInfo, r.logger)
+	fast, slow, err := email.SortEmailInfo(emailInfo, r.logger, r.cfg)
 	if err != nil {
 		r.logger.Warn("Error sort Email data")
 		CollectDataError = true

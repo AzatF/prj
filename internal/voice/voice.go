@@ -13,24 +13,26 @@ import (
 
 func CheckVoiceInfo(cfg *config.Config, logger *logging.Logger) ([]model.VoiceDataModel, error) {
 
-	var (
-		voiceInfo    model.VoiceDataModel
-		voiceInfoSum []model.VoiceDataModel
-		sum          float64
-	)
+	var voiceInfo model.VoiceDataModel
+	var voiceInfoSum []model.VoiceDataModel
+	var sum float64
 
 	file, err := os.ReadFile(path.Join(cfg.DataPath, "voice.data"))
 	if err != nil {
 		return nil, err
 	}
 
-	codeA2, err := alpha2.CountryCodeAlpha2()
+	codeA2, err := alpha2.CountryCodeAlpha2(cfg)
 	if err != nil {
 		logger.Error(err)
 		return nil, err
 	}
 
-	voiceProviders := strings.Split(cfg.ProvidersVoice, " ")
+	voiceProviders, err := alpha2.GetProviders(cfg, "voice")
+	if err != nil {
+		logger.Errorf("error read file providers: %v", err)
+	}
+
 	voiceFile := strings.Split(string(file), "\n")
 
 	for _, v := range voiceFile {

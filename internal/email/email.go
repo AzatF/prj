@@ -14,23 +14,25 @@ import (
 
 func CheckEmailInfo(cfg *config.Config, logger *logging.Logger) ([]model.EmailDataModel, error) {
 
-	var (
-		emailInfo    model.EmailDataModel
-		emailInfoSum []model.EmailDataModel
-	)
+	var emailInfo model.EmailDataModel
+	var emailInfoSum []model.EmailDataModel
 
 	file, err := os.ReadFile(path.Join(cfg.DataPath, "email.data"))
 	if err != nil {
 		return nil, err
 	}
 
-	codeA2, err := alpha2.CountryCodeAlpha2()
+	codeA2, err := alpha2.CountryCodeAlpha2(cfg)
 	if err != nil {
 		logger.Error(err)
 		return nil, err
 	}
 
-	emailProviders := strings.Split(cfg.ProvidersEmail, " ")
+	emailProviders, err := alpha2.GetProviders(cfg, "email")
+	if err != nil {
+		logger.Errorf("error read file providers: %v", err)
+	}
+
 	emailFile := strings.Split(string(file), "\n")
 
 	for _, v := range emailFile {
@@ -65,13 +67,13 @@ func CheckEmailInfo(cfg *config.Config, logger *logging.Logger) ([]model.EmailDa
 
 }
 
-func SortEmailInfo(emailInfo []model.EmailDataModel, logger *logging.Logger) (map[string][]model.EmailDataModel, map[string][]model.EmailDataModel, error) {
+func SortEmailInfo(emailInfo []model.EmailDataModel, logger *logging.Logger, cfg *config.Config) (map[string][]model.EmailDataModel, map[string][]model.EmailDataModel, error) {
 
 	var mapEmailInfo = map[string][]model.EmailDataModel{}
 	var mapEmailInfoFast = map[string][]model.EmailDataModel{}
 	var mapEmailInfoSlow = map[string][]model.EmailDataModel{}
 
-	codeA2, err := alpha2.CountryCodeAlpha2()
+	codeA2, err := alpha2.CountryCodeAlpha2(cfg)
 	if err != nil {
 		logger.Error(err)
 		return nil, nil, err

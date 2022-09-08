@@ -72,7 +72,3 @@ type ISO3166 struct {
 	Alpha3  string
 	Code    string
 }
-
-type Providers struct {
-	Provider []string
-}

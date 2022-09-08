@@ -13,23 +13,25 @@ import (
 
 func CheckSMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.SMSDataModel, error) {
 
-	var (
-		smsSliceString model.SMSDataModel
-		smsSliceSum    []model.SMSDataModel
-	)
+	var smsSliceString model.SMSDataModel
+	var smsSliceSum []model.SMSDataModel
 
 	file, err := os.ReadFile(path.Join(cfg.DataPath, "sms.data"))
 	if err != nil {
 		return nil, err
 	}
 
-	codeA2, err := alpha2.CountryCodeAlpha2()
+	codeA2, err := alpha2.CountryCodeAlpha2(cfg)
 	if err != nil {
 		logger.Error(err)
 		return nil, err
 	}
 
-	prov := strings.Split(cfg.Providers, " ")
+	prov, err := alpha2.GetProviders(cfg, "sms")
+	if err != nil {
+		logger.Errorf("error read file providers: %v", err)
+	}
+
 	smsFile := strings.Split(string(file), "\n")
 
 	for _, v := range smsFile {

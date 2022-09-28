@@ -1,37 +1,38 @@
 package voice
 
 import (
-	"io/ioutil"
+	"os"
 	"path"
-	"project/app/alpha2"
-	"project/app/model"
 	"project/config"
+	"project/internal/alpha2"
+	"project/internal/model"
 	"project/pkg/logging"
 	"strconv"
 	"strings"
 )
 
-var (
-	voiceInfo    model.VoiceDataModel
-	voiceInfoSum []model.VoiceDataModel
-	sum          float64
-)
-
 func CheckVoiceInfo(cfg *config.Config, logger *logging.Logger) ([]model.VoiceDataModel, error) {
 
-	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "voice.model"))
+	var voiceInfo model.VoiceDataModel
+	var voiceInfoSum []model.VoiceDataModel
+	var sum float64
+
+	file, err := os.ReadFile(path.Join(cfg.DataPath, "voice.data"))
+	if err != nil {
+		return nil, err
+	}
+
+	codeA2, err := alpha2.CountryCodeAlpha2(cfg)
 	if err != nil {
 		logger.Error(err)
 		return nil, err
 	}
 
-	codeA2, err := alpha2.CountryCodeAlpha2()
+	voiceProviders, err := alpha2.GetProviders(cfg, "voice")
 	if err != nil {
-		logger.Error(err)
-		return nil, err
+		logger.Errorf("error read file providers: %v", err)
 	}
 
-	voiceProviders := strings.Split(cfg.ProvidersVoice, " ")
 	voiceFile := strings.Split(string(file), "\n")
 
 	for _, v := range voiceFile {

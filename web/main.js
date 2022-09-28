@@ -200,6 +200,7 @@
 
         console.log('YES');
         renderEmailCharts(json.data.email);
+
     };
 
     ready(() => {

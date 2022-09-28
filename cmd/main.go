@@ -1,10 +1,15 @@
 package main
 
 import (
+	"context"
 	"flag"
+	"os"
+	"os/signal"
 	"project/config"
+	"project/internal/app"
+	"project/internal/server"
 	"project/pkg/logging"
-	"project/server"
+	"syscall"
 )
 
 var (
@@ -26,8 +31,20 @@ func main() {
 		logger.Fatal(err)
 	}
 
-	//test.TestingApp(cfg, logger)
+	appServer.HomeServer()
 
-	appServer.HomeServer(cfg.SupportHost, "8888", logger)
+	srv := new(app.Server)
+	go func() {
+		srv.StartServer(cfg.Host, cfg.Port, logger)
+	}()
 
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, syscall.SIGTERM, syscall.SIGINT, os.Interrupt)
+	stopType := <-stop
+
+	logger.Info("STOP SERVER: ", stopType)
+
+	if err := srv.StopServer(context.Background()); err != nil {
+		return
+	}
 }

@@ -9,9 +9,9 @@ type SMSDataModel struct {
 
 type MMSDataModel struct {
 	Country      string `json:"country"`
-	Provider     string `json:"provider"`
 	Bandwidth    string `json:"bandwidth"`
 	ResponseTime string `json:"response_time"`
+	Provider     string `json:"provider"`
 }
 
 type VoiceDataModel struct {
@@ -57,13 +57,13 @@ type ResultT struct {
 }
 
 type ResultSetT struct {
-	SMS       [][]SMSDataModel              `json:"sms"`
-	MMS       [][]MMSDataModel              `json:"mms"`
-	VoiceCall []VoiceDataModel              `json:"voice_call"`
-	Email     map[string][][]EmailDataModel `json:"email"`
-	Billing   BillingDataModel              `json:"billing"`
-	Support   []int                         `json:"support"`
-	Incident  []IncidentDataModel           `json:"incident"`
+	SMS       [][]SMSDataModel              `json:"sms,omitempty"`
+	MMS       [][]MMSDataModel              `json:"mms,omitempty"`
+	VoiceCall []VoiceDataModel              `json:"voice_call,omitempty"`
+	Email     map[string][][]EmailDataModel `json:"email,omitempty"`
+	Billing   BillingDataModel              `json:"billing,omitempty"`
+	Support   []int                         `json:"support,omitempty"`
+	Incident  []IncidentDataModel           `json:"incident,omitempty"`
 }
 
 type ISO3166 struct {
@@ -71,8 +71,4 @@ type ISO3166 struct {
 	Alpha2  string
 	Alpha3  string
 	Code    string
-}
-
-type Providers struct {
-	Provider []string
 }

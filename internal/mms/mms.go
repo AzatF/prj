@@ -3,32 +3,31 @@ package mms
 import (
 	"encoding/json"
 	"net/http"
-	"project/app/alpha2"
-	"project/app/model"
 	"project/config"
+	"project/internal/alpha2"
+	"project/internal/model"
 	"project/pkg/logging"
 	"sort"
-	"strings"
-)
-
-var (
-	mmsSliceSum []model.MMSDataModel
-	mmsSliceRes []model.MMSDataModel
-	first       []model.MMSDataModel
 )
 
 func CheckMMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.MMSDataModel, error) {
 
-	codeA2, err := alpha2.CountryCodeAlpha2()
+	var mmsSliceSum []model.MMSDataModel
+	var mmsSliceRes []model.MMSDataModel
+
+	codeA2, err := alpha2.CountryCodeAlpha2(cfg)
 	if err != nil {
 		logger.Error(err)
 		return nil, err
 	}
 
-	prov := strings.Split(cfg.Providers, " ")
-	resp, err := http.Get("http://" + cfg.MMSHost + ":" + cfg.MMSPort + "/mms")
+	prov, err := alpha2.GetProviders(cfg, "sms")
 	if err != nil {
-		logger.Errorf("Status code MMS: %v", resp.StatusCode)
+		logger.Errorf("error read file providers: %v", err)
+	}
+
+	resp, err := http.Get(cfg.MMSHost + ":" + cfg.MMSPort)
+	if err != nil {
 		return nil, err
 	}
 
@@ -47,6 +46,7 @@ func CheckMMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.MMSDataMo
 				if m.Provider == p {
 					for _, c := range codeA2 {
 						if m.Country == c.Alpha2 {
+							m.Country = c.Country
 							mmsSliceRes = append(mmsSliceRes, m)
 						}
 					}
@@ -63,21 +63,11 @@ func CheckMMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.MMSDataMo
 
 }
 
-func SortMMSInfo(mmsInfo []model.MMSDataModel, logger *logging.Logger) (sorted []model.MMSDataModel, err error) {
+func SortMMSInfo(mmsInfo []model.MMSDataModel) ([]model.MMSDataModel, error) {
 
-	codeA2, err := alpha2.CountryCodeAlpha2()
-	if err != nil {
-		logger.Error(err)
-		return nil, err
-	}
-
+	var first []model.MMSDataModel
 	for _, v := range mmsInfo {
-		for _, c := range codeA2 {
-			if v.Country == c.Alpha2 {
-				v.Country = c.Country
-				first = append(first, v)
-			}
-		}
+		first = append(first, v)
 	}
 
 	sort.SliceStable(first, func(i, j int) bool {

@@ -3,25 +3,22 @@ package incident
 import (
 	"encoding/json"
 	"net/http"
-	"project/app/model"
 	"project/config"
+	"project/internal/model"
 	"project/pkg/logging"
 	"sort"
 )
 
-var (
-	incidentInfo []model.IncidentDataModel
-)
-
 func CheckIncidentInfo(cfg *config.Config, logger *logging.Logger) ([]model.IncidentDataModel, error) {
 
-	resp, err := http.Get("http://" + cfg.IncidentHost + ":" + cfg.IncidentPort + "/accendent")
+	var incidentInfo []model.IncidentDataModel
+
+	resp, err := http.Get(cfg.IncidentHost + ":" + cfg.IncidentPort)
 	if err != nil {
-		logger.Errorf("Status code incident: %v", resp.StatusCode)
-		logger.Fatal(err)
+		return nil, err
 	}
+
 	logger.Infof("Status code incident: %v", resp.StatusCode)
-	defer resp.Body.Close()
 
 	if resp.StatusCode == 200 {
 
@@ -35,6 +32,7 @@ func CheckIncidentInfo(cfg *config.Config, logger *logging.Logger) ([]model.Inci
 		})
 
 	}
+	defer resp.Body.Close()
 
 	return incidentInfo, nil
 }

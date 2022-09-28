@@ -1,23 +1,20 @@
 package billing
 
 import (
-	"io/ioutil"
+	"os"
 	"path"
-	"project/app/model"
 	"project/config"
+	"project/internal/model"
 	"project/pkg/logging"
 	"strconv"
 )
 
-var (
-	n1, n2, n3, n4, n5, n6 int
-)
-
 func CheckBillingInfo(cfg *config.Config, logger *logging.Logger) (billingInfo model.BillingDataModel, err error) {
 
-	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "billing.model"))
+	var n1, n2, n3, n4, n5, n6 int
+
+	file, err := os.ReadFile(path.Join(cfg.DataPath, "billing.data"))
 	if err != nil {
-		logger.Error(err)
 		return billingInfo, err
 	}
 
@@ -26,10 +23,25 @@ func CheckBillingInfo(cfg *config.Config, logger *logging.Logger) (billingInfo m
 	if len(a) == 6 {
 
 		n1, err = strconv.Atoi(string([]rune(a)[0]))
+		if err != nil {
+			logger.Error(err)
+		}
 		n2, err = strconv.Atoi(string([]rune(a)[1]))
+		if err != nil {
+			logger.Error(err)
+		}
 		n3, err = strconv.Atoi(string([]rune(a)[2]))
+		if err != nil {
+			logger.Error(err)
+		}
 		n4, err = strconv.Atoi(string([]rune(a)[3]))
+		if err != nil {
+			logger.Error(err)
+		}
 		n5, err = strconv.Atoi(string([]rune(a)[4]))
+		if err != nil {
+			logger.Error(err)
+		}
 		n6, err = strconv.Atoi(string([]rune(a)[5]))
 		if err != nil {
 			logger.Error(err)

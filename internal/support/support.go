@@ -2,28 +2,28 @@ package support
 
 import (
 	"encoding/json"
+	"io"
 	"math"
 	"net/http"
-	"project/app/model"
 	"project/config"
+	"project/internal/model"
 	"project/pkg/logging"
-)
-
-var (
-	sumTicket int
-	workLoad  int
 )
 
 func CheckSupportInfo(cfg *config.Config, logger *logging.Logger) (supportInfo []model.SupportDataModel, err error) {
 
-	resp, err := http.Get("http://" + cfg.SupportHost + ":" + cfg.SupportPort + "/support")
+	resp, err := http.Get(cfg.SupportHost + ":" + cfg.SupportPort)
 	if err != nil {
-		logger.Errorf("Status code support: %v", resp.StatusCode)
 		return nil, err
 	}
 
 	logger.Infof("Status code support: %v", resp.StatusCode)
-	defer resp.Body.Close()
+	defer func(Body io.ReadCloser) {
+		err := Body.Close()
+		if err != nil {
+
+		}
+	}(resp.Body)
 
 	if resp.StatusCode == 200 {
 
@@ -39,6 +39,11 @@ func CheckSupportInfo(cfg *config.Config, logger *logging.Logger) (supportInfo [
 }
 
 func SortSupportInfo(supportInfo []model.SupportDataModel) (sortedSupportInfo []int, err error) {
+
+	var (
+		sumTicket int
+		workLoad  int
+	)
 
 	medianTime := 60.0 / 18.0 / 1.0
 	for _, v := range supportInfo {

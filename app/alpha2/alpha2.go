@@ -1,19 +1,19 @@
 package alpha2
 
 import (
-	"io/ioutil"
+	"os"
 	"project/app/model"
 	"strings"
 )
 
-var (
-	ss      []string
-	isoCode model.ISO3166
-)
-
 func CountryCodeAlpha2() (isoCodeRes []model.ISO3166, err error) {
 
-	codeAlpha2, err := ioutil.ReadFile("./iso2.txt")
+	var (
+		ss      []string
+		isoCode model.ISO3166
+	)
+
+	codeAlpha2, err := os.ReadFile("./iso2.txt")
 	if err != nil {
 		return nil, err
 	}

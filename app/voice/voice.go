@@ -19,7 +19,7 @@ var (
 
 func CheckVoiceInfo(cfg *config.Config, logger *logging.Logger) ([]model.VoiceDataModel, error) {
 
-	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "voice.data"))
+	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "voice.model"))
 	if err != nil {
 		logger.Error(err)
 		return nil, err

@@ -20,7 +20,7 @@ var (
 
 func CheckSMSInfo(cfg *config.Config, logger *logging.Logger) ([]model.SMSDataModel, error) {
 
-	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "sms.data"))
+	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "sms.model"))
 	if err != nil {
 		log.Println(err)
 		return nil, err

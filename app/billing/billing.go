@@ -15,7 +15,7 @@ var (
 
 func CheckBillingInfo(cfg *config.Config, logger *logging.Logger) (billingInfo model.BillingDataModel, err error) {
 
-	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "billing.data"))
+	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "billing.model"))
 	if err != nil {
 		logger.Error(err)
 		return billingInfo, err

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../../Windowed-app/.idea/Windowed-app.iml" filepath="$PROJECT_DIR$/../../Windowed-app/.idea/Windowed-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../examples/.idea/examples.iml" filepath="$PROJECT_DIR$/../../examples/.idea/examples.iml" />
+      <module fileurl="file://$USER_HOME$/GolandProjects/notepad_gui/.idea/notepad_gui.iml" filepath="$USER_HOME$/GolandProjects/notepad_gui/.idea/notepad_gui.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../notetest/.idea/notetest.iml" filepath="$PROJECT_DIR$/../../notetest/.idea/notetest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/project.iml" filepath="$PROJECT_DIR$/.idea/project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../../social-bot/.idea/social-bot.iml" filepath="$PROJECT_DIR$/../../social-bot/.idea/social-bot.iml" />
+    </modules>
+  </component>
+</project>

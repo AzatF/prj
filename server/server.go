@@ -52,7 +52,7 @@ func (l *list) handleConnection(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		l.logger.Error(err)
 		resultT.Status = false
-		resultT.Error = "Error on collect data"
+		resultT.Error = "Error on collect model"
 	}
 
 	resultT.Data = result

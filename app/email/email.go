@@ -25,7 +25,7 @@ func CheckEmailInfo(cfg *config.Config, logger *logging.Logger) ([]model.EmailDa
 		return nil, err
 	}
 
-	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "email.data"))
+	file, err := ioutil.ReadFile(path.Join(cfg.DataPath, "email.model"))
 	if err != nil {
 		logger.Error(err)
 		return nil, err

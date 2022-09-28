@@ -52,7 +52,7 @@ type IncidentDataModel struct {
 
 type ResultT struct {
 	Status bool       `json:"status"`
-	Data   ResultSetT `json:"data"`
+	Data   ResultSetT `json:"model"`
 	Error  string     `json:"error"`
 }
 
